@@ -8,7 +8,7 @@ import (
 
 func GetDB() *sql.DB {
 	const driverName = "postgres"
-	const dataSourceName = "postgresql://root:secret@localhost:5432/financial-transaction-db?sslmode=disable"
+	const dataSourceName = "postgresql://root:secret@localhost:5432/ranking-db?sslmode=disable"
 
 	db, err := sql.Open(driverName, dataSourceName)
 	if err != nil {

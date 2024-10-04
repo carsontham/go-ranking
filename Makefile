@@ -14,7 +14,7 @@ postgres-run:
 	-p 5432:5432 \
 	-e POSTGRES_USER=root \
 	-e POSTGRES_PASSWORD=secret \
-	-e POSTGRES_DB=ranking_db \
+	-e POSTGRES_DB=ranking-db \
 	-v pgdata:/var/lib/postgresql/data \
 	-d postgres:16-alpine \
 
@@ -25,6 +25,13 @@ start-db:
 # gracefully shut down docker container which allows data to persists in postgresql
 stop-db:
 	-docker stop ranking_container
+
+remove-db:
+	-docker rm ranking_container
+
+# removes the volume pgdata that is mounted on host machine
+remove-volume:
+	-docker volume rm pgdata
 
 # waits for postgres container to be ready - without this, migrate will run immediately and fails
 wait-for-postgres:
@@ -37,7 +44,7 @@ wait-for-postgres:
 
 # uses goose to migrate data into postgres database
 migrate-up: wait-for-postgres
-	goose -dir db postgres "postgresql://root:secret@localhost:5432/ranking_container?sslmode=disable" up;
+	goose -dir db postgres "postgresql://root:secret@localhost:5432/ranking-db?sslmode=disable" up;
 
 # delete and create a new container - resets the database to default (for testing purposes)
 set-db: stop-db remove-db remove-volume db

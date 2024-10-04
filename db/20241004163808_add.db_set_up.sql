@@ -1,18 +1,18 @@
 -- +goose Up
 -- +goose StatementBegin
 
-CREATE TABLE user
+CREATE TABLE ranked_users
 (
-    id INTEGER NOT NULL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name VARCHAR NOT NULL,
+    email VARCHAR NOT NULL,
     score INTEGER NOT NULL
-    balance DECIMAL(20,10) NOT NULL CHECK (balance >= 0)
 );
 
-INSERT INTO account (name, score)
-VALUES ('John', 50),
-       ('Daniel', 60),
-       ('Poh', 70),
+INSERT INTO ranked_users (name, email, score)
+VALUES ('John', 'john@gmail.com', 50),
+       ('Daniel', 'daniel@gmail.com', 60),
+       ('Poh', 'poh@gmail.com', 70);
 
 -- +goose StatementEnd
 
