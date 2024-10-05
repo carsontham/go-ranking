@@ -62,62 +62,61 @@ make run
 ```
 - Response:
   - Status Code 201 Created
-```
-{
-    "status_code": 201,
-    "data": "created"
-}
-```
+  ```
+  {
+      "status_code": 201,
+      "data": "created"
+  }
+  ```
   - Status Code 409 Conflict (email already in use)
-```
-{
-    "status_code": 409,
-    "data": "Email is already in use"
-}
-```
+  ```
+  {
+      "status_code": 409,
+      "data": "Email is already in use"
+  }
+  ```
 
 **2. Get All Users**
 - Endpoint: GET /users
 - Response:
-  - Statuse Code 200 OK 
-  - Resposne Body:
-```
-{
-    "statusCode": 200,
-    "data": [
-        {
-            "id": 1,
-            "name": "John Doe",
-            "email": "johndoe@example.com",
-            "score": 150
-        },
-        {
-            "id": 2,
-            "name": "Jane Smith",
-            "email": "janesmith@example.com",
-            "score": 200
-        }
-    ]
-}
-```
-
-
+  - Status Code 200 OK 
+  - Response Body:
+  ```
+  {
+      "statusCode": 200,
+      "data": [
+          {
+              "id": 1,
+              "name": "John Doe",
+              "email": "johndoe@example.com",
+              "score": 150
+          },
+          {
+              "id": 2,
+              "name": "Jane Smith",
+              "email": "janesmith@example.com",
+              "score": 200
+          }
+      ]
+  }
+  ```
+  
 **3. Get User by ID**
 - Endpoint: GET /users/{id}
 - Response:
   - Status Code 200 OK
   - Response Body:
-```
-{
-    "statusCode": 200,
-    "data": {
-        "id": 1,
-        "name": "John Doe",
-        "email": "johndoe@example.com",
-        "score": 150
-    }
-}
-```
+  ```
+  {
+      "statusCode": 200,
+      "data": {
+          "id": 1,
+          "name": "John Doe",
+          "email": "johndoe@example.com",
+          "score": 150
+      }
+  }
+  ```
 - Error Response (if user not found):
   - Status Code: 404 Not Found 
   ```
@@ -139,7 +138,9 @@ make run
   }
   ```
 - Response:
-  - Status Code 204 No Content
+  - Status Code 204 No Content (successful update)
+  
+
 - Error Response (if user not found):
   - Status Code: 404 Not Found
   ```
@@ -152,7 +153,9 @@ make run
 **5. Delete User by ID**
 - Endpoint: DELETE /users/{id}
 - Response:
-  - Status Code 204 No Content
+  - Status Code 204 No Content (successful update)
+
+
 - Error Response (if user not found):
   - Status Code: 404 Not Found
   ```
