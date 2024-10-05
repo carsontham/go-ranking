@@ -3,6 +3,7 @@ package rest
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"log"
 	"net/http"
 )
@@ -62,10 +63,10 @@ func NotFound(w http.ResponseWriter) {
 }
 
 // StatusConflict for 409
-func StatusConflict(w http.ResponseWriter) {
+func StatusConflict(w http.ResponseWriter, msg string) {
 	body := &JSONRespBody{
 		StatusCode: http.StatusConflict,
-		Data:       "Payment Processing Error - The payment cannot be processed",
+		Data:       msg,
 	}
 	b, err := json.Marshal(body)
 	if err != nil {
@@ -77,33 +78,32 @@ func StatusConflict(w http.ResponseWriter) {
 	w.Write(b)
 }
 
-//
-//// UnprocessableEntity for 422
-//func UnprocessableEntity(w http.ResponseWriter, errors error) {
-//	var err interface{}
-//	if fieldErrors, ok := errors.(validator.ValidationErrors); ok {
-//		fieldErrorsMap := make(map[string]string, len(fieldErrors))
-//		for _, ve := range fieldErrors {
-//			fieldErrorsMap[ve.Namespace()] = ve.Translate(nil)
-//		}
-//		err = fieldErrorsMap
-//	} else {
-//		err = errors.Error()
-//	}
-//
-//	body := &JSONRespBody{
-//		StatusCode: http.StatusUnprocessableEntity,
-//		Error:      err,
-//	}
-//	b, err := json.Marshal(body)
-//	if err != nil {
-//		fmt.Println("Error during marshalling json body")
-//		return
-//	}
-//	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-//	w.WriteHeader(http.StatusUnprocessableEntity)
-//	w.Write(b)
-//}
+// UnprocessableEntity for 422
+func UnprocessableEntity(w http.ResponseWriter, errors error) {
+	var err interface{}
+	if fieldErrors, ok := errors.(validator.ValidationErrors); ok {
+		fieldErrorsMap := make(map[string]string, len(fieldErrors))
+		for _, ve := range fieldErrors {
+			fieldErrorsMap[ve.Namespace()] = ve.Translate(nil)
+		}
+		err = fieldErrorsMap
+	} else {
+		err = errors.Error()
+	}
+
+	body := &JSONRespBody{
+		StatusCode: http.StatusUnprocessableEntity,
+		Error:      err,
+	}
+	b, err := json.Marshal(body)
+	if err != nil {
+		fmt.Println("Error during marshalling json body")
+		return
+	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusUnprocessableEntity)
+	w.Write(b)
+}
 
 // InternalServerError for 500
 func InternalServerError(w http.ResponseWriter) {

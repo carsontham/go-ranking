@@ -1,10 +1,14 @@
 package bootstrap
 
-import "go-ranking/app/repository"
+import (
+	"github.com/go-playground/validator/v10"
+	"go-ranking/app/repository"
+)
 
 func Run() {
 	s := NewServer(":3000")
 	repo := repository.NewRankingRepo(GetDB())
-	s.SetUpRoutes(repo)
+	val := validator.New()
+	s.SetUpRoutes(repo, val)
 	s.RunServer()
 }

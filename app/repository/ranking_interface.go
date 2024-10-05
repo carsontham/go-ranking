@@ -1,6 +1,8 @@
 package repository
 
-// RankingRepository
+// RankingRepository is the interface for repository
 type RankingRepository interface {
-	GetAllUser() ([]*User, error)
+	CreateNewUser(User) error
+	GetAllUser(bool, int) ([]*User, error)
+	CheckUniqueEmail(string) (bool, error)
 }
