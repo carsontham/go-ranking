@@ -163,3 +163,73 @@ func (repo RankingRepo) DeleteUserByID(id int64) error {
 	log.Printf("deleted %d row(s) from user table with ID %d", rowsAffected, id)
 	return nil
 }
+
+func (repo RankingRepo) GetAllUserRanking() ([]RankedUser, error) {
+	db := repo.database
+	if db == nil {
+		log.Println("database error")
+		return nil, errors.New("database not initialized")
+	}
+
+	query := ` 	SELECT id, name, email, score,
+				RANK() OVER (ORDER BY score DESC) AS rank
+				FROM ranked_users
+				ORDER BY score DESC;
+			`
+
+	rows, err := db.Query(query)
+	if err != nil {
+		log.Println("Error executing query:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var rankedUsers []RankedUser
+
+	for rows.Next() {
+		var rankedUser RankedUser
+
+		err := rows.Scan(&rankedUser.ID, &rankedUser.Name, &rankedUser.Email, &rankedUser.Score, &rankedUser.Rank)
+		if err != nil {
+			log.Println("Error scanning row:", err)
+			return nil, err
+		}
+
+		rankedUsers = append(rankedUsers, rankedUser)
+	}
+
+	if err = rows.Err(); err != nil {
+		log.Println("Error after iterating rows:", err)
+		return nil, err
+	}
+
+	return rankedUsers, nil
+}
+
+func (repo RankingRepo) GetUserRankByID(userID int64) (*RankedUser, error) {
+	db := repo.database
+	if db == nil {
+		log.Println("database error")
+		return nil, errors.New("database not initialized")
+	}
+
+	query := `
+        WITH RankedUsers AS (
+        	SELECT id, name, email, score,
+        	RANK() OVER (ORDER BY score DESC) AS rank
+            FROM ranked_users
+        )
+        SELECT id, name, email, score, rank FROM RankedUsers WHERE id = $1;
+    `
+
+	var rankedUser RankedUser
+	err := db.QueryRow(query, userID).Scan(&rankedUser.ID, &rankedUser.Name, &rankedUser.Email, &rankedUser.Score, &rankedUser.Rank)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, rest.ErrNotFound
+		}
+		log.Println("Error getting user rank:", err)
+		return nil, err
+	}
+	return &rankedUser, nil
+}

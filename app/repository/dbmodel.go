@@ -6,3 +6,8 @@ type User struct {
 	Email string `db:"email"`
 	Score int64  `db:"score"`
 }
+
+type RankedUser struct {
+	User
+	Rank int64 `db:"rank"`
+}

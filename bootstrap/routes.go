@@ -12,4 +12,7 @@ func (s *Server) SetUpRoutes(repo repository.RankingRepository, validator *valid
 	s.router.Get("/users/{id:\\d+}", handlers.GetUserByID(repo))
 	s.router.Post("/users/{id:\\d+}", handlers.UpdateUserByID(repo))
 	s.router.Delete("/users/{id:\\d+}", handlers.DeleteUserByID(repo))
+
+	s.router.Get("/users/rank", handlers.GetAllUserRank(repo))
+	s.router.Get("/users/rank/{id:\\d+}", handlers.GetUserRankByID(repo))
 }
