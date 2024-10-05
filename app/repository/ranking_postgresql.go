@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	_ "github.com/lib/pq"
+	"go-ranking/app/handlers/rest"
 	"log"
 )
 
@@ -98,4 +99,67 @@ func (repo RankingRepo) CheckUniqueEmail(email string) (bool, error) {
 
 	// Return true if the email does not exist
 	return !exists, nil
+}
+
+func (repo RankingRepo) GetUserByID(id int64) (*User, error) {
+	db := repo.database
+	if db == nil {
+		log.Println("database error")
+	}
+
+	query := "SELECT * FROM ranked_users WHERE id = $1"
+	row := db.QueryRow(query, id)
+
+	var user User
+	err := row.Scan(&user.ID, &user.Name, &user.Email, &user.Score)
+	if err != nil {
+		log.Println(err)
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, rest.ErrNotFound
+		}
+		return nil, err
+	}
+	return &user, nil
+}
+
+func (repo RankingRepo) UpdateUserByID(user *User) error {
+	db := repo.database
+	if db == nil {
+		log.Println("database error")
+	}
+	updateQuery := "UPDATE ranked_users SET name = $1, email = $2, score = $3 WHERE id = $4"
+	result, err := db.Exec(updateQuery, user.Name, user.Email, user.Score, user.ID)
+	if err != nil {
+		log.Println("Error updating user:", err)
+		return err
+	}
+	if err != nil {
+		return err
+	}
+	res, _ := result.RowsAffected()
+	log.Printf("inserted %d row into user table", res)
+	return nil
+}
+
+func (repo RankingRepo) DeleteUserByID(id int64) error {
+	db := repo.database
+	if db == nil {
+		log.Println("database error")
+		return errors.New("database not initialized")
+	}
+
+	deleteQuery := "DELETE FROM ranked_users WHERE id = $1"
+	result, err := db.Exec(deleteQuery, id)
+	if err != nil {
+		log.Println("Error deleting user:", err)
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Println("Error getting rows affected:", err)
+		return err
+	}
+	log.Printf("deleted %d row(s) from user table with ID %d", rowsAffected, id)
+	return nil
 }

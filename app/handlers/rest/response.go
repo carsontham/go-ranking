@@ -46,6 +46,12 @@ func StatusCreated(w http.ResponseWriter, data interface{}) {
 	w.Write(b)
 }
 
+// StatusNoContent for 204
+func StatusNoContent(w http.ResponseWriter) {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusNoContent) // Set HTTP status to 201
+}
+
 // BadRequest for 400
 func BadRequest(w http.ResponseWriter, err error) {
 	body := &JSONRespBody{

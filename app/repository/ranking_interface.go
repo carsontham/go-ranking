@@ -7,4 +7,7 @@ type RankingRepository interface {
 	CreateNewUser(*User) error
 	GetAllUser(bool, int) ([]*User, error)
 	CheckUniqueEmail(string) (bool, error)
+	GetUserByID(int64) (*User, error)
+	UpdateUserByID(*User) error
+	DeleteUserByID(int64) error
 }
