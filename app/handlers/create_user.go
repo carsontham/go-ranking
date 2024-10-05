@@ -16,15 +16,15 @@ func CreateNewUser(repo repository.RankingRepository, v *validator.Validate) htt
 
 		if err := json.NewDecoder(req.Body).Decode(&userReqBody); err != nil {
 			log.Println("error body invalid")
-			rest.BadRequest(w, errors.New("invalid request body"))
+			rest.BadRequest(w, errors.New("invalid request body")) // 400
 			return
 		}
 
 		if err := v.Struct(userReqBody); err != nil {
 			if ve, ok := err.(validator.ValidationErrors); ok {
-				rest.UnprocessableEntity(w, ve)
+				rest.UnprocessableEntity(w, ve) // 422
 			} else {
-				rest.InternalServerError(w)
+				rest.InternalServerError(w) // 500
 			}
 			return
 		}
@@ -35,20 +35,20 @@ func CreateNewUser(repo repository.RankingRepository, v *validator.Validate) htt
 		isUnique, err := repo.CheckUniqueEmail(dbUser.Email)
 		if err != nil {
 			log.Println("Database error:", err)
-			rest.InternalServerError(w)
+			rest.InternalServerError(w) // 500
 			return
 		}
 		if !isUnique {
 			// status 409
-			rest.StatusConflict(w, "Email is already in use")
+			rest.StatusConflict(w, "Email is already in use") // 409
 			return
 		}
 
-		if err := repo.CreateNewUser(*dbUser); err != nil {
-			rest.InternalServerError(w)
+		if err := repo.CreateNewUser(dbUser); err != nil {
+			rest.InternalServerError(w) // 500
 			return
 		}
-		rest.StatusOK(w, "account created")
+		rest.StatusCreated(w, "account created") // 201
 
 	}
 }

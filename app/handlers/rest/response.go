@@ -30,6 +30,22 @@ func StatusOK(w http.ResponseWriter, data interface{}) {
 	w.Write(b)
 }
 
+// StatusCreated for 201
+func StatusCreated(w http.ResponseWriter, data interface{}) {
+	body := &JSONRespBody{
+		StatusCode: http.StatusCreated, // Set the status to 201 Created
+		Data:       data,
+	}
+	b, err := json.Marshal(body)
+	if err != nil {
+		fmt.Println("Error during marshalling json body")
+		return
+	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusCreated) // Set HTTP status to 201
+	w.Write(b)
+}
+
 // BadRequest for 400
 func BadRequest(w http.ResponseWriter, err error) {
 	body := &JSONRespBody{

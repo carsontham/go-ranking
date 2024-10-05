@@ -62,14 +62,14 @@ func (repo RankingRepo) GetAllUser(sortScoreInDesc bool, minScore int) ([]*User,
 	return users, nil
 }
 
-func (repo RankingRepo) CreateNewUser(user User) error {
+func (repo RankingRepo) CreateNewUser(user *User) error {
 	db := repo.database
 	if db == nil {
 		log.Println("database error")
 	}
 
 	query := `INSERT INTO ranked_users (name, email, score) VALUES ($1, $2, $3)`
-	result, err := db.Exec(query, user.Name, user.Email, user.Score)
+	result, err := db.Exec(query, &user.Name, &user.Email, &user.Score)
 
 	if err != nil {
 		return err
