@@ -93,10 +93,10 @@ func (mr *MockRankingRepositoryMockRecorder) GetAllUser(arg0, arg1 interface{}) 
 }
 
 // GetAllUserRanking mocks base method.
-func (m *MockRankingRepository) GetAllUserRanking() ([]repository.RankedUser, error) {
+func (m *MockRankingRepository) GetAllUserRanking() ([]*repository.RankedUser, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAllUserRanking")
-	ret0, _ := ret[0].([]repository.RankedUser)
+	ret0, _ := ret[0].([]*repository.RankedUser)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

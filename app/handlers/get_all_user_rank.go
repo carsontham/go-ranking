@@ -16,7 +16,7 @@ func GetAllUserRank(repo repository.RankingRepository) http.HandlerFunc {
 			rest.InternalServerError(w)
 			return
 		}
-		rest.StatusOK(w, users)
+		rest.StatusOK(w, RankedUserDBModelArrayToViewModelArray(users))
 
 	}
 }

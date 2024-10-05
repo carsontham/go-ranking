@@ -197,7 +197,7 @@ make run
     ]
   }
 
-**6. Get User Rank by ID**
+**7. Get User Rank by ID**
 - Endpoint: GET /users/rank/{id}
 - Response:
   - Status Code 200 OK

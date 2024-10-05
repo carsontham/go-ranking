@@ -22,6 +22,6 @@ func GetUserByID(repo repository.RankingRepository) http.HandlerFunc {
 			rest.InternalServerError(w)
 			return
 		}
-		rest.StatusOK(w, user)
+		rest.StatusOK(w, UserDBModelToViewModel(user))
 	}
 }

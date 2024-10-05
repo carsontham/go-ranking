@@ -35,7 +35,7 @@ func GetAllUser(repo repository.RankingRepository) http.HandlerFunc {
 			rest.InternalServerError(w)
 			return
 		}
-		rest.StatusOK(w, users)
+		rest.StatusOK(w, UserDBModelArrayToViewModelArray(users))
 
 	}
 }

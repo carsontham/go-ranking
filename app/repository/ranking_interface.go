@@ -10,6 +10,6 @@ type RankingRepository interface {
 	GetUserByID(int64) (*User, error)
 	UpdateUserByID(*User) error
 	DeleteUserByID(int64) error
-	GetAllUserRanking() ([]RankedUser, error)
+	GetAllUserRanking() ([]*RankedUser, error)
 	GetUserRankByID(int64) (*RankedUser, error)
 }

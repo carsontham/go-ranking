@@ -164,7 +164,7 @@ func (repo RankingRepo) DeleteUserByID(id int64) error {
 	return nil
 }
 
-func (repo RankingRepo) GetAllUserRanking() ([]RankedUser, error) {
+func (repo RankingRepo) GetAllUserRanking() ([]*RankedUser, error) {
 	db := repo.database
 	if db == nil {
 		log.Println("database error")
@@ -184,7 +184,7 @@ func (repo RankingRepo) GetAllUserRanking() ([]RankedUser, error) {
 	}
 	defer rows.Close()
 
-	var rankedUsers []RankedUser
+	var rankedUsers []*RankedUser
 
 	for rows.Next() {
 		var rankedUser RankedUser
@@ -195,7 +195,7 @@ func (repo RankingRepo) GetAllUserRanking() ([]RankedUser, error) {
 			return nil, err
 		}
 
-		rankedUsers = append(rankedUsers, rankedUser)
+		rankedUsers = append(rankedUsers, &rankedUser)
 	}
 
 	if err = rows.Err(); err != nil {
