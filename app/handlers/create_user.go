@@ -48,7 +48,7 @@ func CreateNewUser(repo repository.RankingRepository, v *validator.Validate) htt
 			rest.InternalServerError(w) // 500
 			return
 		}
-		rest.StatusCreated(w, "account created") // 201
+		rest.StatusCreated(w) // 201
 
 	}
 }

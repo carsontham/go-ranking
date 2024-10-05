@@ -31,10 +31,10 @@ func StatusOK(w http.ResponseWriter, data interface{}) {
 }
 
 // StatusCreated for 201
-func StatusCreated(w http.ResponseWriter, data interface{}) {
+func StatusCreated(w http.ResponseWriter) {
 	body := &JSONRespBody{
 		StatusCode: http.StatusCreated, // Set the status to 201 Created
-		Data:       data,
+		Data:       "created",
 	}
 	b, err := json.Marshal(body)
 	if err != nil {

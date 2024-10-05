@@ -63,6 +63,20 @@ func (mr *MockRankingRepositoryMockRecorder) CreateNewUser(arg0 interface{}) *go
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateNewUser", reflect.TypeOf((*MockRankingRepository)(nil).CreateNewUser), arg0)
 }
 
+// DeleteUserByID mocks base method.
+func (m *MockRankingRepository) DeleteUserByID(arg0 int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteUserByID", arg0)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteUserByID indicates an expected call of DeleteUserByID.
+func (mr *MockRankingRepositoryMockRecorder) DeleteUserByID(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUserByID", reflect.TypeOf((*MockRankingRepository)(nil).DeleteUserByID), arg0)
+}
+
 // GetAllUser mocks base method.
 func (m *MockRankingRepository) GetAllUser(arg0 bool, arg1 int) ([]*repository.User, error) {
 	m.ctrl.T.Helper()
@@ -78,6 +92,21 @@ func (mr *MockRankingRepositoryMockRecorder) GetAllUser(arg0, arg1 interface{}) 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllUser", reflect.TypeOf((*MockRankingRepository)(nil).GetAllUser), arg0, arg1)
 }
 
+// GetAllUserRanking mocks base method.
+func (m *MockRankingRepository) GetAllUserRanking() ([]repository.RankedUser, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAllUserRanking")
+	ret0, _ := ret[0].([]repository.RankedUser)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAllUserRanking indicates an expected call of GetAllUserRanking.
+func (mr *MockRankingRepositoryMockRecorder) GetAllUserRanking() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllUserRanking", reflect.TypeOf((*MockRankingRepository)(nil).GetAllUserRanking))
+}
+
 // GetUserByID mocks base method.
 func (m *MockRankingRepository) GetUserByID(arg0 int64) (*repository.User, error) {
 	m.ctrl.T.Helper()
@@ -91,4 +120,33 @@ func (m *MockRankingRepository) GetUserByID(arg0 int64) (*repository.User, error
 func (mr *MockRankingRepositoryMockRecorder) GetUserByID(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByID", reflect.TypeOf((*MockRankingRepository)(nil).GetUserByID), arg0)
+}
+
+// GetUserRankByID mocks base method.
+func (m *MockRankingRepository) GetUserRankByID(arg0 int64) (*repository.RankedUser, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUserRankByID", arg0)
+	ret0, _ := ret[0].(*repository.RankedUser)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUserRankByID indicates an expected call of GetUserRankByID.
+func (mr *MockRankingRepositoryMockRecorder) GetUserRankByID(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserRankByID", reflect.TypeOf((*MockRankingRepository)(nil).GetUserRankByID), arg0)
+}
+
+// UpdateUserByID mocks base method.
+func (m *MockRankingRepository) UpdateUserByID(arg0 *repository.User) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateUserByID", arg0)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateUserByID indicates an expected call of UpdateUserByID.
+func (mr *MockRankingRepositoryMockRecorder) UpdateUserByID(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUserByID", reflect.TypeOf((*MockRankingRepository)(nil).UpdateUserByID), arg0)
 }
