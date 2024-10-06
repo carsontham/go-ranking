@@ -48,3 +48,7 @@ migrate-up: wait-for-postgres
 
 # delete and create a new container - resets the database to default (for testing purposes)
 set-db: stop-db remove-db remove-volume db
+
+# unit-test for service layer
+unit-test:
+	go test ./app/handlers/create_user_test.go ./app/handlers/get_all_user_test.go

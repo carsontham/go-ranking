@@ -76,7 +76,7 @@ func TestCreateNewAccount(t *testing.T) {
 		}
 	})
 
-	t.Run("it should fail as request body is invalid, return 400", func(t *testing.T) {
+	t.Run("it should fail as request body is malformed, return 400", func(t *testing.T) {
 		_, client, url := setUp(t)
 		//stubEmail := "newUser@hello.com"
 		reqBody := `
@@ -91,16 +91,33 @@ func TestCreateNewAccount(t *testing.T) {
 		}
 	})
 
-	t.Run("it should fail due to validation checks, return 422", func(t *testing.T) {
+	t.Run("it should fail due to validation checks when invalid email format, return 422", func(t *testing.T) {
 		_, client, url := setUp(t)
 		reqBody := `
 			{
-				"invalid_body": newUser@hello.com,
+				"name": "newUser",
+				"email": "newUser@hello",
+				"score": 1
 			}`
 		req, _ := http.NewRequest("POST", url, bytes.NewBuffer([]byte(reqBody)))
 		resp, err := client.Do(req)
 		if assert.NoError(t, err) {
-			assert.Equal(t, http.StatusBadRequest, resp.StatusCode)
+			assert.Equal(t, http.StatusUnprocessableEntity, resp.StatusCode)
+		}
+	})
+
+	t.Run("it should fail due to validation checks when score is less than 0, return 422", func(t *testing.T) {
+		_, client, url := setUp(t)
+		reqBody := `
+			{
+				"name": "newUser",
+				"email": "newUser@hello.com",
+				"score": -1
+			}`
+		req, _ := http.NewRequest("POST", url, bytes.NewBuffer([]byte(reqBody)))
+		resp, err := client.Do(req)
+		if assert.NoError(t, err) {
+			assert.Equal(t, http.StatusUnprocessableEntity, resp.StatusCode)
 		}
 	})
 
