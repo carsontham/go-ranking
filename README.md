@@ -75,6 +75,18 @@ make run
       "data": "Email is already in use"
   }
   ```
+  - Status Code 422 Unprocessable Entity 
+    - when validation for request body fails
+    - E.g. Score is equal or less than 0 or invalid email format
+    - It is assumed that scores are greater than 1
+  ```
+  {
+    "status_code": 422,
+    "error": {
+        "UserRequestBody.Score": "Key: 'UserRequestBody.Score' Error:Field validation for 'Score' failed on the 'gt' tag"
+    }
+  }
+  ```
 
 **2. Get All Users**
 - Endpoint: GET /users
@@ -149,7 +161,18 @@ make run
     "error": "resource not found"
   }
   ```
-
+  - Status Code 422 Unprocessable Entity 
+    - when validation for request body fails
+    - E.g. Score is equal or less than 0 or invalid email format
+    - It is assumed that scores are greater than 1
+  ```
+  {
+    "status_code": 422,
+      "error": {
+      "UserRequestBody.Score": "Key: 'UserRequestBody.Score' Error:Field validation for 'Score' failed on the 'gt' tag"
+      }
+  }
+  ```
 **5. Delete User by ID**
 - Endpoint: DELETE /users/{id}
 - Response:
