@@ -237,3 +237,13 @@ make run
     }
   }
   ```
+
+# Unit Test
+
+To run test: 
+```
+make unit-test
+```
+This runs the unit test for:
+- ./app/handlers/create_user_test.go
+- ./app/handlers/get_all_user_test.go
